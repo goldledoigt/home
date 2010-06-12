@@ -1,14 +1,29 @@
+;; set comments font color
+(set-face-foreground 'font-lock-comment-face "red")
+(set-face-foreground 'font-lock-comment-delimiter-face "red")
 
 ;; headers
-(load "/home/gary/.xemacs/std_comments.el")
+(load "~/.xemacs/std_comments.el")
 
 ;; mode JS2
 (setq load-path (append (list (expand-file-name "~/.xemacs/js2")) load-path))
 (autoload 'js2-mode "js2" nil t)
 (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
 
+;; mode PHP
+(load "~/.xemacs/php-mode.el")
+
 ;; mode ExtJS
-(load "/home/gary/.xemacs/extjs.el")
+(load "~/.xemacs/extjs.el")
+
+;; mode CSS
+ (load "~/.xemacs/css-mode.el")
+ (autoload 'css-mode "css-mode")
+ (setq auto-mode-alist       
+       (cons '("\\.css\\'" . css-mode) auto-mode-alist))
+
+;; bind query-replace key for Mac OS X
+(global-set-key (kbd "<f5>") 'query-replace)
 
 ;; dont show the GNU splash screen
 (setq inhibit-startup-message t)
@@ -32,3 +47,16 @@
                          (file-name-directory file)))))))
     (concat backup-directory "/"
      (substring fname 0 (min (length fname) 80)))))
+
+
+;; indentation for PHP-MODE
+(defun clean-php-mode ()
+(interactive)
+(php-mode)
+(setq c-basic-offset 2) ; 2 tabs indenting
+(setq indent-tabs-mode nil)
+(setq fill-column 78)
+(c-set-offset 'case-label '+)
+(c-set-offset 'arglist-close 'c-lineup-arglist-operators))
+(c-set-offset 'arglist-intro '+) ; for FAPI arrays and DBTNG
+(c-set-offset 'arglist-cont-nonempty 'c-lineup-math) ; for DBTNG fields and values
